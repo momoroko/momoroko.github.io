@@ -61,12 +61,30 @@
 
   </div>
 
-<!--<script type="text/javascript">-->
-<!--  -->
+<script type="text/javascript">
+  $(".textbox input").focusout(function () {
+    if($(this).val() == ""){
+      $(this).siblings().removeClass("hidden");
+      $(this).css("background","#554343");
+    }else{
+      $(this).siblings().removeClass("hidden");
+      $(this).css("background","#484848");
+    }
+  });
+
+  $(".textbox input").keyup(function () {
+    var inputs = $(".textbox input");
+    if (inputs[0].value != "" && inputs[1].value){
+      $(".login-button").attr("disabled",false);
+      $(".login-button").addClass("active");
+    }else {
+      $(".login-button").attr("disabled",true);
+      $(".login-button").removeClass("active");
+    }
+  });
 
 
-
-<!--</script>-->
+</script>
 
 </body>
 
