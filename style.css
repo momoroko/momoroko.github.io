@@ -8,7 +8,7 @@
     padding: 0;
     background-color:coral;
     overflow: hidden;
-    
+    height: 6vh;
 }
 
 
@@ -52,7 +52,9 @@
 }
 
 .containers a{
--webkit-tap-highlight-color: transparent; outline: none;
+-webkit-tap-highlight-color: transparent; 
+outline: none;
+outline: 0;
 }
 
 .containers a:link{
@@ -85,3 +87,18 @@
    display: inline;
    vertical-align: middle;
 } 
+
+
+
+/* Small screens */
+@media only screen and (max-width: 680px) {
+    .logo p{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 560px) {
+        .logo {
+            display: none;
+        }
+    }
