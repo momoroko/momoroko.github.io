@@ -51,11 +51,12 @@
     transition: 0.4s; 
 }
 
+.containers a{
+-webkit-tap-highlight-color: transparent; outline: none;
+}
 
 .containers a:link{
-    /* a:link - 普通的、未被访问的链接
-       a:visited - 用户已访问的链接
-       a:hover - 鼠标指针位于链接的上方 */
+
     color: #000;
 }
 
