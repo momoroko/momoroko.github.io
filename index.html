@@ -1,91 +1,631 @@
-<!doctype html>
-<html class="no-js" lang="">
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Model By Python</title>
+        <link rel="shortcut icon " href="taco.png" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-<head>
-  <meta charset="utf-8">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body class="vscode-light">
 
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="icon.png">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" charset="utf-8"></script>
-  <!-- Place favicon.ico in the root directory -->
+      <nav class="navibar">       
+          <div class='logo'>
+            <img src="logo/logos.svg" alt="">
+            <p>Model with Python</p>
+          </div>
+           
+          <ul class='containers'> 
+            <li><a href="#SIR">SIR Model</a></li>  
+            <li><a href="#thermal">Thermal Model</a></li>
+          </ul>
+      </nav>
 
+      <div class="contents">
 
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/welc.css">
+        <div class="content" id='SIR'>
+          <img src="logo/bakterien.svg" alt="">
+          <h2>Spread of Corona</h2> 
+          <hr>
 
-  <meta name="theme-color" content="#fafafa">
-</head>
-
-<body>
-  <div class="login-form">
-
-    <div class="logo"><img src="img/taco.png" alt=""></div>
-
-    <div class="social-media">
-      <button class="youtube"><img src="img/youtube.png" alt=""></button>
-      <button class="google"><img src="img/google.png" alt=""></button>
-      <button class="twitter"><img src="img/twitter.png" alt=""></button>
-      <button class="instagram"><img src="img/instagram.png" alt=""></button>
-    </div>
-
-    <h6>登录</h6>
-    <form action="">
-
-      <div class="textbox">
-        <input type="text" placeholder="你的名字">
-        <span class="check-message">必填</span>
-      </div>
-
-      <div class="textbox">
-        <input type="password" placeholder="密码">
-        <span class="check-message">必填</span>
-      </div>
-
-        <div class="options">
-          <label class="remember-me">
-            <span class="checkbox">
-              <input type="checkbox">
-              <span class="checked"></span>
-            </span>
-            记住我
-          </label>
-          <a href="welcome.html">忘记了密码</a>
+          <!-- <h1 id="spread-of-corona">Spread of Corona</h1> -->
+          <h2 id="1-sir-model">1. SIR Model</h2>
+          <pre><code>SIR stands for susceptible, infected and recovered/removed
+          </code></pre>
+          <h2 id="2-parameters">2. parameters</h2>
+          <ol>
+          <li>recovery rate gamma γ
+          if the time between recoveries is 4 days, the recovery rate is about 0.25 recoveries per day
+          <br></li>
+          <li>N
+          total number of people in the population is N
+          <br></li>
+          <li>contact rate beta β
+          each susceptible person comes into contact with 1 person every 3 days, on average, 
+          in such a way that they would contract the disease if the other person is infected.
+          <br></li>
+          <li>s is the fraction of the population that’s susceptible
+          <br></li>
+          <li>i is the fraction currently infected
+          <br></li>
+          <li>r is the fraction of the population that has recovered
+          <br>
+          thus
+          <br>
+          the total number of recoveries we expect per day is γiN.
+          <br>
+          sN is the number of susceptible people, βsN is the number of contacts per day,
+           and βsiN is the number of those contacts where the other person is infectious.</li>
+          </ol>
+          <h2 id="3-functions">3. Functions</h2>
+          <p>ds/dt = −βsi
+          <br>
+          di/dt = βsi − γi
+          <br>
+          dr/dt = γi</p>
+          <h2 id="4-coding">4. Coding</h2>
+          <pre><code class="language-py"><div><span class="hljs-keyword">import</span> modsim   <span class="hljs-comment">#pip instal modsimpy</span>
+          <span class="hljs-string">'''
+          Represent the initial state of the system using a State object, 
+          which is defined in the modsim library. 
+          A State object is a colection of state variables.
+          '''</span>
+          init  = State(S=<span class="hljs-number">89</span>, I=<span class="hljs-number">1</span>, R=<span class="hljs-number">0</span>)  <span class="hljs-comment">#initialize Object</span>
+          init /= sum(init) <span class="hljs-comment">#ratio</span>
+          
+          <span class="hljs-comment"># 1. creat system object</span>
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_system</span><span class="hljs-params">(beta, gamma)</span>:</span>
+              init = State(S=<span class="hljs-number">89</span>, I=<span class="hljs-number">1</span>, R=<span class="hljs-number">0</span>)
+              init /= sum(init)
+              t0 = <span class="hljs-number">0</span>
+              t_end = <span class="hljs-number">7</span> * <span class="hljs-number">14</span>  <span class="hljs-comment">#days</span>
+              <span class="hljs-keyword">return</span> System(init=init, t0=t0, t_end=t_end,
+                        beta=beta, gamma=gamma)
+          
+          <span class="hljs-comment"># 2. update the state object</span>
+          <span class="hljs-comment"># change the state vararies using system vararies </span>
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">update_func</span><span class="hljs-params">(state, system)</span>:</span>
+              s, i, r = state
+              infected = system.beta * i * s
+              recovered = system.gamma * i
+              s -= infected
+              i += infected - recovered
+              r += recovered
+              <span class="hljs-keyword">return</span> State(S=s, I=i, R=r)
+          
+          <span class="hljs-comment"># 3. calculate and save the changing vararies-simulation</span>
+          <span class="hljs-comment"># by TimeSeries</span>
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_simulation</span><span class="hljs-params">(system, update_func)</span>:</span>
+              <span class="hljs-string">"""Runs a simulation of the system.
+              
+              Add three Series objects to the System: S, I, R
+              
+              system: System object
+              update_func: function that updates state
+              """</span>
+              S = TimeSeries()
+              I = TimeSeries()
+              R = TimeSeries()
+          
+              state = system.init
+              t0 = system.t0
+              S[t0], I[t0], R[t0] = state
+              
+              <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> linrange(system.t0, system.t_end):
+                  state = update_func(state, system)
+                  S[t+<span class="hljs-number">1</span>], I[t+<span class="hljs-number">1</span>], R[t+<span class="hljs-number">1</span>] = state  
+              <span class="hljs-keyword">return</span> S, I, R
+          
+          <span class="hljs-comment"># 4. plot</span>
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_results</span><span class="hljs-params">(S, I, R)</span>:</span>
+              <span class="hljs-string">"""Plot the results of a SIR model.
+              
+              S: TimeSeries
+              I: TimeSeries
+              R: TimeSeries
+              """</span>
+              plot(S, <span class="hljs-string">'--'</span>, label=<span class="hljs-string">'Susceptible'</span>)
+              plot(I, <span class="hljs-string">'-'</span>, label=<span class="hljs-string">'Infected'</span>)
+              plot(R, <span class="hljs-string">':'</span>, label=<span class="hljs-string">'Recovered'</span>)
+              decorate(xlabel=<span class="hljs-string">'Time (days)'</span>,
+                       ylabel=<span class="hljs-string">'Fraction of population'</span>)
+          
+          <span class="hljs-comment"># 5. excutation</span>
+          tc = <span class="hljs-number">3</span>  <span class="hljs-comment"># time between contacts in days</span>
+          tr = <span class="hljs-number">4</span>  <span class="hljs-comment"># recovery time in days</span>
+          beta = <span class="hljs-number">1</span> / tc      <span class="hljs-comment"># contact rate in per day</span>
+          gamma = <span class="hljs-number">1</span> / tr     <span class="hljs-comment"># recovery rate in per day</span>
+          system = make_system(beta, gamma)
+          S, I, R = run_simulation(system, update_func)
+          plot_results(S, I, R)
+          savefig(<span class="hljs-string">'SIRtimeseries.pdf'</span>)
+          
+          <span class="hljs-comment"># another 3. by Timeframe</span>
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_simulation</span><span class="hljs-params">(system, update_func)</span>:</span>
+          
+              frame = TimeFrame(columns=system.init.index) <span class="hljs-comment">#column</span>
+              frame.row[system.t0] = system.init   <span class="hljs-comment">#row0</span>
+              <span class="hljs-comment"># calculate rows</span>
+              <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> linrange(system.t0, system.t_end):
+                  frame.row[t+<span class="hljs-number">1</span>] = update_func(frame.row[t], system)
+              
+              <span class="hljs-keyword">return</span> frame
+          
+          <span class="hljs-comment"># 5.excute</span>
+          system = make_system(beta, gamma)
+          results = run_simulation(system, update_func)
+          plot_results(results.S, results.I, results.R)
+          
+          <span class="hljs-comment"># 6.Metrics - find information from statistics</span>
+          
+          <span class="hljs-comment"># 6.1 total infected</span>
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calc_total_infected</span><span class="hljs-params">(results)</span>:</span>
+              
+              <span class="hljs-keyword">return</span> get_first_value(results.S) - get_last_value(results.S)
+          
+          <span class="hljs-comment"># 6.2 max infected </span>
+          max_infected = results.I.max()
+          
+          <span class="hljs-comment"># 6.3 The day the outbreak peaks </span>
+          The_day_the_outbreak_peaks = results.I.idxmax()
+          
+          <span class="hljs-comment"># 7. Immunization - vaccine</span>
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_immunization</span><span class="hljs-params">(system, fraction)</span>:</span>
+              system.init.S -= fraction
+              system.init.R += fraction
+          
+          <span class="hljs-string">'''
+          10% of students are vaccinated at the beginning, 
+          and the vaccine is 100% effective
+          '''</span>
+          system2=make_system(beta,gamma) 
+          add_immunization(system2,<span class="hljs-number">0.1</span>) 
+          results2 = run_simulation(system2,update_func)
+          plot(results.I, <span class="hljs-string">'--'</span>, label=<span class="hljs-string">'Noimmunization'</span>)
+          plot(results2.I, <span class="hljs-string">'-'</span>, label=<span class="hljs-string">'10% Immunization'</span>)
+          decorate(xlabel=<span class="hljs-string">'Time (days)'</span>,
+                   ylabel=<span class="hljs-string">'Fraction infected'</span>)
+          
+          <span class="hljs-comment"># 8. Sweep - change of vararies</span>
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sweep_immunity</span><span class="hljs-params">(immunize_array)</span>:</span>
+              <span class="hljs-string">"""Sweeps a range of values for immunity.
+              
+              immunize_array: array of fraction immunized
+              
+              returns: Sweep object
+              """</span>
+              sweep = SweepSeries()
+              
+              <span class="hljs-keyword">for</span> fraction <span class="hljs-keyword">in</span> immunize_array:
+                  system = make_system(beta, gamma)
+                  add_immunization(system, fraction)
+                  results = run_simulation(system, update_func)
+                  sweep[fraction] = calc_total_infected(results)
+                  
+              <span class="hljs-keyword">return</span> sweep
+          
+          immunize_array = linspace(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">21</span>)
+          infected_sweep = sweep_immunity(immunize_array)
+          plot(infected_sweep)
+          
+          decorate(xlabel=<span class="hljs-string">'Fraction immunized'</span>,
+                   ylabel=<span class="hljs-string">'Total fraction infected'</span>,
+                   title=<span class="hljs-string">'Fraction infected vs. immunization rate'</span>,
+                   legend=<span class="hljs-literal">False</span>)
+          <span class="hljs-string">'''
+          Reducing the number of “susceptibles” and increasing 
+          the number of “resistants” makes it harder for the disease to spread, 
+          because some fraction of contacts are wasted on people 
+          who cannot be infected. This phenomenon is called herd immunity, 
+          and it is an important element of public health.
+          '''</span>
+          
+          <span class="hljs-comment"># 9. Hand washing</span>
+          
+          <span class="hljs-comment"># 9.1 fit the data with logistic curve</span>
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">logistic</span><span class="hljs-params">(x, A=<span class="hljs-number">0</span>, B=<span class="hljs-number">1</span>, C=<span class="hljs-number">1</span>, M=<span class="hljs-number">0</span>, K=<span class="hljs-number">1</span>, Q=<span class="hljs-number">1</span>, nu=<span class="hljs-number">1</span>)</span>:</span>
+              <span class="hljs-string">"""Computes the generalize logistic function.
+              
+              A: controls the lower bound
+              B: controls the steepness of the transition 
+              C: not all that useful, AFAIK
+              M: controls the location of the transition
+              K: controls the upper bound
+              Q: shift the transition left or right
+              nu: affects the symmetry of the transition
+              
+              returns: float or array
+              """</span>
+              exponent = -B * (x - M)
+              denom = C + Q * exp(exponent)
+              <span class="hljs-keyword">return</span> A + (K-A) / denom ** (<span class="hljs-number">1</span>/nu)
+          
+          <span class="hljs-comment"># for the case</span>
+          <span class="hljs-string">'''
+          If we spend $500 on posters, materials, and staff time, 
+          we can change student behavior in a way 
+          that decreases the effective value of beta by 10%.
+          If we spend $1000, the total decrease in beta is almost 20%.
+          Above $1000, additional spending has little additional benefit.
+          '''</span>
+          spending = linspace(<span class="hljs-number">0</span>, <span class="hljs-number">1200</span>, <span class="hljs-number">20</span>)
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">compute_factor</span><span class="hljs-params">(spending)</span>:</span>
+              <span class="hljs-string">"""Reduction factor as a function of spending.
+              
+              spending: dollars from 0 to 1200
+              
+              returns: fractional reduction in beta
+              """</span>
+              <span class="hljs-keyword">return</span> logistic(spending, M=<span class="hljs-number">500</span>, K=<span class="hljs-number">0.2</span>, B=<span class="hljs-number">0.01</span>)
+          
+          percent_reduction = compute_factor(spending) * <span class="hljs-number">100</span>
+          plot(spending, percent_reduction)
+          decorate(xlabel=<span class="hljs-string">'Hand-washing campaign spending (USD)'</span>,
+                   ylabel=<span class="hljs-string">'Percent reduction in infection rate'</span>,
+                   title=<span class="hljs-string">'Effect of hand washing on infection rate'</span>,
+                   legend=<span class="hljs-literal">False</span>)
+          
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_hand_washing</span><span class="hljs-params">(system, spending)</span>:</span>
+              <span class="hljs-string">"""Modifies system to model the effect of hand washing.
+              
+              system: System object
+              spending: campaign spending in USD
+              """</span>
+              factor = compute_factor(spending)
+              system.beta *= (<span class="hljs-number">1</span> - factor)
+          
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sweep_hand_washing</span><span class="hljs-params">(spending_array)</span>:</span>
+              <span class="hljs-string">"""Run simulations with a range of spending.
+              
+              spending_array: array of dollars from 0 to 1200
+              
+              returns: Sweep object
+              """</span>
+              sweep = SweepSeries()
+              
+              <span class="hljs-keyword">for</span> spending <span class="hljs-keyword">in</span> spending_array:
+                  system = make_system(beta, gamma)
+                  add_hand_washing(system, spending)
+                  results = run_simulation(system, update_func)
+                  sweep[spending] = calc_total_infected(results)  
+              <span class="hljs-keyword">return</span> sweep
+          
+          spending_array = linspace(<span class="hljs-number">0</span>, <span class="hljs-number">1200</span>, <span class="hljs-number">20</span>)
+          infected_sweep = sweep_hand_washing(spending_array)
+          
+          plot(infected_sweep)
+          decorate(xlabel=<span class="hljs-string">'Hand-washing campaign spending (USD)'</span>,
+                   ylabel=<span class="hljs-string">'Total fraction infected'</span>,
+                   title=<span class="hljs-string">'Effect of hand washing on total infections'</span>,
+                   legend=<span class="hljs-literal">False</span>)
+          
+          <span class="hljs-comment"># 10. Optimization</span>
+          <span class="hljs-comment"># With a fixed budget of $1200, we have to decide how many doses of vaccine to buy and how much to spend on the hand-washing campaign.</span>
+          num_students = <span class="hljs-number">90</span>
+          budget = <span class="hljs-number">1200</span>
+          price_per_dose = <span class="hljs-number">100</span>
+          max_doses = int(budget / price_per_dose)
+          dose_array = linrange(max_doses, endpoint=<span class="hljs-literal">True</span>)
+          
+          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sweep_doses</span><span class="hljs-params">(dose_array)</span>:</span>
+              <span class="hljs-string">"""Runs simulations with different doses and campaign spending.
+              
+              dose_array: range of values for number of vaccinations
+              
+              return: Sweep object with total number of infections 
+              """</span>
+              sweep = SweepSeries()
+              
+              <span class="hljs-keyword">for</span> doses <span class="hljs-keyword">in</span> dose_array:
+                  fraction = doses / num_students
+                  spending = budget - doses * price_per_dose
+                  
+                  system = make_system(beta, gamma)
+                  add_immunization(system, fraction)
+                  add_hand_washing(system, spending)
+                  
+                  results = run_simulation(system, update_func)
+                  sweep[doses] = calc_total_infected(results)
+          
+              <span class="hljs-keyword">return</span> sweep
+          
+          infected_sweep = sweep_doses(dose_array)
+          plot(infected_sweep)
+          
+          decorate(xlabel=<span class="hljs-string">'Doses of vaccine'</span>,
+                   ylabel=<span class="hljs-string">'Total fraction infected'</span>,
+                   title=<span class="hljs-string">'Total infections vs. doses'</span>,
+                   legend=<span class="hljs-literal">False</span>)
+          
+          </div></code></pre>
         </div>
+        
 
-         <input type="submit" value="马上登录" class="login-button" disabled>
+        <div class='content' id="thermal">
+            <div class="Tlogo">
+             <img src="logo/symbole.svg" alt="">   
+            <h1 id="thermal-systems">Thermal systems</h1>
+            </div>
+            <br>
+<h2 id="1-problem">1. Problem</h2>
+<p>Suppose I stop on the way to work to pick up a cup of coffee, which I take with milk. Assuming that I want the coffee to be as hot as possible when I arrive at work, should I add the milk at the coffee shop, wait until I get to work, or add the milk at some point in between?</p>
+<h2 id="2-parameters-1">2. Parameters</h2>
+<ul>
+<li>When served, the temperature of the coffee is 90◦C. The volume is 300 mL.</li>
+<li>The milk is at an initial temperature of 5 ◦C, and I take about 50 mL.</li>
+<li>The ambient temperature in my car is 22 ◦C.</li>
+<li>The coffee is served in a well insulated cup. When I arrive at work after 30 minutes, the temperature of the coffee has fallen to 70 ◦C.</li>
+<li>The milk container is not as well insulated. After 15 minutes, it warms up to 20 ◦C, nearly the ambient temperature.</li>
+</ul>
+<h2 id="3-equations">3. Equations</h2>
+<ol>
+<li>
+<p>Q = C∆T
+where Q is the amount of heat transferred to an object, ∆T is resulting change in temperature, and C is the thermal mass of the object, which quantifies how much energy it takes to heat or cool it. In SI units, thermal mass is measured in joules per degree Celsius (J/◦C). For objects made primarily from one material, thermal mass can be computed like this:
+C = mcp
+where m is the mass of the object and cp is the specific heat capacity of the
+material.<br>
+We can use these equations to estimate the thermal mass of a cup of coffee. The specific heat capacity of coffee is probably close to that of water, which is 4.2 J/(g ◦C). Assuming that the density of coffee is close to that of water, which is 1 g/mL, the mass of 300 mL of coffee is 300 g, and the thermal mass is 1260 J/◦C.</p>
+</li>
+<li>
+<p>Newton’s law of cooling
+Newton’s law of cooling asserts that the temperature rate of change for an object is proportional to the difference in temperature between the object and the surrounding environment:
+dT/dt =−r(T−Tenv)
+where T, the temperature of the object, is a function of time, t; Tenv is the temperature of the environment, and r is a constant that characterizes how quickly heats is transferred between the system and the environment.</p>
+</li>
+</ol>
+<h2 id="4implementation">4.Implementation</h2>
+<ol>
+<li>
+<p>creat state and system object</p>
+<pre><code class="language-py"><div> <span class="hljs-keyword">from</span> modsim <span class="hljs-keyword">import</span> *
+ init = State(T=T_init)
+ <span class="hljs-comment"># chose the value of r arbitrarily for now</span>
+ <span class="hljs-comment"># dt is the time step we use to simulate the cooling process</span>
+ coffee = System(init=init, T_env=<span class="hljs-number">22</span>, r=<span class="hljs-number">0.01</span>,
+             t0=<span class="hljs-number">0</span>, t_end=<span class="hljs-number">30</span>, dt=<span class="hljs-number">1</span>,temp=T_init)
+</div></code></pre>
+<p>capsulen</p>
+<pre><code class="language-py"><div> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_system</span><span class="hljs-params">(T_init=<span class="hljs-number">90</span>, r=<span class="hljs-number">0.01</span>, volume=<span class="hljs-number">300</span>, t_end=<span class="hljs-number">30</span>)</span>:</span>
+     init = State(T=T_init)
+     system = System(init=init,
+                 volume=volume,
+                 r=r,
+                 T_env=<span class="hljs-number">22</span>,
+                 t_0=<span class="hljs-number">0</span>,
+                 t_end=t_end,
+                 dt=<span class="hljs-number">1</span>,
+                 temp=T_init)
+     <span class="hljs-keyword">return</span> system
+</div></code></pre>
+</li>
+<li>
+<p>update using eqution</p>
+</li>
+</ol>
+<pre><code class="language-py"><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">update</span><span class="hljs-params">(state, system)</span>:</span>
+    unpack(system)
+    T = state.T
+    T += -r * (T - T_env) * dt
+    <span class="hljs-keyword">return</span> State(T=T)
+</div></code></pre>
+<ol start="3">
+<li>simulation</li>
+</ol>
+<pre><code class="language-py"><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_simulation</span><span class="hljs-params">(system, update_func)</span>:</span>
+    <span class="hljs-string">"""Runs a simulation of the system.
+    
+    Add a TimeFrame to the System: results
+    
+    system: System object
+    update_func: function that updates state
+    """</span>
+    init = system.init
+    t_0, t_end, dt = system.t_0, system.t_end, system.dt
+    
+    frame = TimeFrame(columns=init.index)
+    frame.row[t_0] = init
+    ts = linrange(t_0, t_end, dt)
+    
+    <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> ts:
+        frame.row[t+dt] = update_func(frame.row[t], t, system)
+    
+    <span class="hljs-keyword">return</span> frame
+</div></code></pre>
+<ol start="4">
+<li>excute and plot</li>
+</ol>
+<pre><code class="language-py"><div>coffe = make_system()
+Tcoffee = run_simulation(coffee, update_func)
+milk = make_system(T_init=<span class="hljs-number">5</span>, r=<span class="hljs-number">0.01</span>, volume=<span class="hljs-number">50</span>)
+Tmilk = run_simulation(milk, update_func)
+plot(Tcoffee.T ,<span class="hljs-string">'--'</span>, label=<span class="hljs-string">'coffee'</span>)
+plot(Tmilk.T, <span class="hljs-string">'-'</span>, label=<span class="hljs-string">'milk'</span>)
+decorate(xlabel=<span class="hljs-string">'Time (minutes)'</span>,
+         ylabel=<span class="hljs-string">'Temperature (C)'</span>)
+</div></code></pre>
+<ol start="5">
+<li>find the exact r by conditions</li>
+</ol>
+<blockquote>
+<p>fsolve finds the roots of non-linear equations</p>
+</blockquote>
+<pre><code class="language-py"><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">func</span><span class="hljs-params">(x)</span>:</span>
+    <span class="hljs-keyword">return</span> (x<span class="hljs-number">-1</span>) * (x<span class="hljs-number">-2</span>) * (x<span class="hljs-number">-3</span>)
 
-    </form>
+fsolve(func, x0=<span class="hljs-number">0</span>)
 
-  </div>
+<span class="hljs-comment"># The first argument is the function whose roots we want. </span>
+<span class="hljs-comment"># The second argument, x0, is an initial guess about where a root might be.</span>
+</div></code></pre>
+<blockquote>
+<p>So how can we use fsolve to estimate r?</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>Now, we want to find the value of r that yields a final temperature of 70 ◦C.<br>
+To work with fsolve,
+we need a function that takes r as a parameter and
+returns the difference between the final temperature and the goal:</p>
+</blockquote>
+</blockquote>
+<pre><code class="language-py"><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">error_func1</span><span class="hljs-params">(r)</span>:</span>
+    <span class="hljs-string">"""Runs a simulation and returns the `error`.
+    
+    r: heat transfer rate, in 1/min
+    
+    returns: difference between final temp and 70 C
+    """</span>
+    system = make_system(T_init=<span class="hljs-number">90</span>, r=r, volume=<span class="hljs-number">300</span>, t_end=<span class="hljs-number">30</span>)
+    results = run_simulation(system, update_func)
+    T_final = get_last_value(results.T)
+    <span class="hljs-keyword">return</span> T_final - <span class="hljs-number">70</span>
 
-<script type="text/javascript">
-  $(".textbox input").focusout(function () {
-    if($(this).val() == ""){
-      $(this).siblings().removeClass("hidden");
-      $(this).css("background","#554343");
-    }else{
-      $(this).siblings().removeClass("hidden");
-      $(this).css("background","#484848");
-    }
-  });
+solution_coffee=fsolve(error_func1,<span class="hljs-number">0.01</span>) 
+r_coffee=solution[<span class="hljs-number">0</span>]
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">error_func2</span><span class="hljs-params">(r)</span>:</span>
+    <span class="hljs-string">"""Runs a simulation and returns the `error`.
+    
+    r: heat transfer rate, in 1/min
+    
+    returns: difference between final temp and 5 C
+    """</span>
+    system = make_system(T_init=<span class="hljs-number">5</span>, r=r, volume=<span class="hljs-number">500</span>, t_end=<span class="hljs-number">30</span>)
+    results = run_simulation(system, update_func)
+    T_final = get_last_value(results.T)
+    <span class="hljs-keyword">return</span> T_final - <span class="hljs-number">5</span>
+solution_milk=fsolve(error_func2,<span class="hljs-number">0.01</span>) 
+r_milk=solution[<span class="hljs-number">0</span>]
 
-  $(".textbox input").keyup(function () {
-    var inputs = $(".textbox input");
-    if (inputs[0].value != "" && inputs[1].value){
-      $(".login-button").attr("disabled",false);
-      $(".login-button").addClass("active");
-    }else {
-      $(".login-button").attr("disabled",true);
-      $(".login-button").removeClass("active");
-    }
-  });
+</div></code></pre>
+<ol start="6">
+<li>Mixing</li>
+</ol>
+<blockquote>
+<p>Eqution</p>
+<blockquote>
+<p>Thermal energy is conserved.
+If the temperature of the first liquid is T1, the temperature of the second liquid is T2, and the final temperature of the mixture is T, the heat transfer into the first liquid is C1(T − T1) and the heat transfer into the second liquid is C2(T − T2), where C1 and C2 are the thermal masses of the liquids.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Function</p>
+</blockquote>
+<pre><code class="language-py"><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mix</span><span class="hljs-params">(system1, system2)</span>:</span>
+    <span class="hljs-string">"""Simulates the mixture of two liquids.
+    
+    system1: System representing coffee
+    system2: System representing milk
+    
+    returns: System representing the mixture
+    """</span>
+    <span class="hljs-keyword">assert</span> system1.t_end == system2.t_end
+    
+    V1, V2 = system1.volume, system2.volume
+    T1, T2 = system1.temp, system2.temp
+    
+    V_mix = V1 + V2
+    T_mix = (V1 * T1 + V2 * T2) / V_mix
+    
+    <span class="hljs-keyword">return</span> make_system(T_init=T_mix,
+                       r=system1.r,
+                       volume=V_mix,
+                       t_end=<span class="hljs-number">30</span>)
+</div></code></pre>
+<blockquote>
+<blockquote>
+<p>assert<br>
+an assert statement, which is a way of checking for errors. It compares t_end for the two systems to confirm that they have been cooling for the same time. If not, assert displays an error message and stops the program.</p>
+</blockquote>
+</blockquote>
+<ol start="7">
+<li>Optimization - take t_add as a parameter,<br>
+which is the time when the milk is added,<br>
+and returns the final temperature.</li>
+</ol>
+<pre><code class="language-py"><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_and_set</span><span class="hljs-params">(system)</span>:</span>
+    <span class="hljs-string">"""Run a simulation and set the final temperature.
+    
+    system: System
+    
+    returns: TimeFrame
+    """</span>
+    results = run_simulation(system, update_func)
+    system.temp = get_last_value(results.T)
+    <span class="hljs-keyword">return</span> results
 
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_and_mix</span><span class="hljs-params">(t_add, t_total)</span>:</span>
+    <span class="hljs-string">"""Simulates two liquids and them mixes them at t_add.
 
-</script>
+    t_add: time in minutes
+    t_total: total time to simulate, min
 
-</body>
+    returns: final temperature
+    """</span>
+    coffee = make_system(T_init=<span class="hljs-number">90</span>, r=r_coffee, volume=<span class="hljs-number">300</span>, t_end=t_add)
+    coffee_results = run_and_set(coffee)
 
+    milk = make_system(T_init=<span class="hljs-number">5</span>, r=r_milk, volume=<span class="hljs-number">50</span>, t_end=t_add)
+    milk_results = run_and_set(milk)
+
+    mixture = mix(coffee, milk)
+    mixture.t_end = t_total - t_add
+    results = run_and_set(mixture)
+
+    <span class="hljs-keyword">return</span> mixture.temp
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sweep_t_add</span><span class="hljs-params">(t_array)</span>:</span>
+    sweep = SweepSeries()
+    <span class="hljs-keyword">for</span> t_add <span class="hljs-keyword">in</span> t_array:
+        sweep[t_add] = run_and_mix(t_add, <span class="hljs-number">30</span>)
+    <span class="hljs-keyword">return</span> sweep
+
+t_array = linspace(<span class="hljs-number">0</span>, <span class="hljs-number">30</span>, <span class="hljs-number">11</span>)
+sweep = sweep_t_add(t_array)
+plot(sweep, label=<span class="hljs-string">'final temp'</span>, color=<span class="hljs-string">'C2'</span>)
+decorate(xlabel=<span class="hljs-string">'Time added (min)'</span>,
+         ylabel=<span class="hljs-string">'Final temperature (C)'</span>)
+
+        </div>
+   
+    </div>
+        
+        <script>
+        $(document).ready(function(){
+        $('ul.containers li a:first').addClass('active');
+        $('.content').hide();
+        $('.content:first').show();
+
+        $('ul.containers li a').click(function(){
+        $('ul.containers li a').removeClass('active');
+        $(this).addClass('active');
+        $('ul.containers li a').css({"color":"black"})
+        $(this).css({"color":"darkred"}); 
+        $('.content').hide();
+
+		var activeTab = $(this).attr('href');
+		$(activeTab).show();
+		return false;
+	});
+});
+        </script>
+    </body>
 </html>

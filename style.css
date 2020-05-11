@@ -1,0 +1,86 @@
+:root{
+    margin: 0;
+    padding: 0;
+    background-color: grey;
+}
+.navibar{
+    margin: 0;
+    padding: 0;
+    background-color:coral;
+    overflow: hidden;
+    
+}
+
+
+.logo{
+    padding: 0;
+    margin: 0;
+    display: block;
+    float: left;
+   
+}
+
+.logo img{
+    height: 6vh;
+    vertical-align:middle
+}
+
+.logo p{
+    display: inline;
+}
+
+.containers{
+    padding: 0;
+    margin: 0;
+    display: block;
+    float: right;
+   
+    transform: translateY(50%);
+}
+
+ .containers li{
+   display: inline; 
+   padding: 1vh;
+   list-style-type:none;
+   vertical-align:middle
+} 
+
+.containers li:hover{
+    background-color: springgreen;
+    box-shadow: 0 0 10px springgreen, 0 0 40px springgreen, 0 0 80px springgreen;
+    transition: 0.4s; 
+}
+
+
+.containers a:link{
+    /* a:link - 普通的、未被访问的链接
+       a:visited - 用户已访问的链接
+       a:hover - 鼠标指针位于链接的上方 */
+    color: #000;
+}
+
+.containers a:hover{
+    color: red;
+}
+
+
+.contents{
+    padding: 0;
+    margin: 0;
+    display: block;
+    transform: translateY(4vh);
+
+}
+.contents img{
+    height: 5vh;
+    vertical-align:middle
+}
+.contents h2{
+    display: inline;
+}
+
+
+.Tlogo h1{
+   display: inline;
+   vertical-align: middle;
+} 
